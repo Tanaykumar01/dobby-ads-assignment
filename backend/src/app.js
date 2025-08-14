@@ -4,8 +4,7 @@ import cors from "cors";
 
 const app = express();
 app.use(cors({
-    // origin: process.env.CLIENT_URL,
-    origin: "http://localhost:5173",
+    origin: '*',
     credentials: true
 }));
 
@@ -17,8 +16,10 @@ app.use(express.urlencoded({
 app.use(express.static("public"));
 app.use(cookieParser());
 // import routes
-
+import  userRouter  from "./routes/user.routes.js";
 // use routes
-
-
+app.use("/api/v1/users", userRouter);
+app.get("/api/v1/test", (req, res) => {
+    res.json({ message: "Test route working" });
+});
 export {app};
