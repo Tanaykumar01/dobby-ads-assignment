@@ -104,8 +104,18 @@ function DashboardPage() {
     setFolders(folders.filter((f) => f.id !== id));
   };
 
-  const deleteImage = (id) => {
-    setImages(images.filter((img) => img.id !== id));
+  const deleteImage = async (id) => {
+    try {
+      await api.delete(`/api/v1/images/${id}`, { withCredentials: true });
+      console.log(images);
+      setImages((prevImages) => ({
+        ...prevImages,
+        data: prevImages.data.filter((img) => img._id !== id),
+      }));
+      setRefreshTrigger((prev) => prev + 1);
+    } catch (error) {
+      console.error("Failed to delete image:", error);
+    }
   };
 
   const handleCreateFolder = async (e) => {
