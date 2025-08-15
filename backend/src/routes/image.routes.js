@@ -2,8 +2,10 @@ import express from 'express';
 import { body } from 'express-validator';
 import { verifyJWT } from '../middlewares/auth.middleware.js';
 import { uploadImage, getImages, searchImages, deleteImage } from '../controllers/image.controller.js';
-import { upload } from '../middlewares/multer.middleware.js';
+import storage from '../middlewares/multer.middleware.js';
+import multer from 'multer';
 
+const upload = multer({ storage });
 const router = express.Router();
 
 router.get('/', verifyJWT, getImages);
