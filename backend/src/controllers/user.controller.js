@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import path from "path";
 
 const generateAccessAndRefereshTokens = async (userId) =>{
     try{
@@ -106,6 +107,8 @@ const logoutUser = asyncHandler(async (req, res) => {
     const options = {
         httpOnly : true,
         secure : true,
+        sameSite: "None",
+        path: "/"
     }
 
     return res.status(200)
