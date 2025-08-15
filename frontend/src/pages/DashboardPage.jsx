@@ -28,7 +28,6 @@ function DashboardPage() {
   const [folders, setFolders] = useState([]);
   const [parentFolder, setParentFolder] = useState([]);
   const [images, setImages] = useState([]);
-  console.log("images:", images);
 
   // UI state
   const [showCreateFolder, setShowCreateFolder] = useState(false);
@@ -36,7 +35,7 @@ function DashboardPage() {
   const [folderName, setFolderName] = useState("");
   const [uploadForm, setUploadForm] = useState({ name: "", image: null });
   const [searchQuery, setSearchQuery] = useState("");
-  console.log("searchQuery:", searchQuery);
+  // console.log("searchQuery:", searchQuery);
 
   // Filtered images
   // const filteredImages = images.filter((img) =>
@@ -51,7 +50,7 @@ function DashboardPage() {
       try {
         const currentUser = await checkUserLogin();
         setUser(currentUser);
-        console.log("Current user:", currentUser);
+        // console.log("Current user:", currentUser);
         navigate("/dashboard");
       } catch (err) {
         console.error("Login check failed:", err);
@@ -70,7 +69,7 @@ function DashboardPage() {
       );
       setUser(null);
       navigate("/");
-      console.log("Logged out");
+      // console.log("Logged out");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -116,16 +115,16 @@ function DashboardPage() {
         { name: folderName, parentId: parentFolder?._id || null }, // send parentId if applicable
         { withCredentials: true }
       );
-      console.log("Folder created:", response.data);
+      // console.log("Folder created:", response.data);
       setFolders((prevFolders) => [
-        console.log(prevFolders),
+        // console.log(prevFolders),
         ...(prevFolders.data.length > 0 ? prevFolders.data : []),
         response.data,
       ]);
 
       setFolderName("");
       setShowCreateFolder(false);
-      console.log("Folder created successfully");
+      // console.log("Folder created successfully");
     } catch (error) {
       if (error.response) {
         // Backend returned a response (like 409, 400)
@@ -191,7 +190,7 @@ function DashboardPage() {
         }
       );
 
-      console.log("Image uploaded:", response.data);
+      // console.log("Image uploaded:", response.data);
 
       setImages((prevImages) => [
         ...(prevImages.data?.length > 0 ? prevImages.data : []),

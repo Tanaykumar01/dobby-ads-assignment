@@ -15,7 +15,6 @@ function AuthForm({ currentView }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Logging in:", authForm.email, authForm.password);
 
     try {
       const { data } = await api.post(
@@ -26,7 +25,6 @@ function AuthForm({ currentView }) {
         },
         { withCredentials: true }
       );
-        console.log("Login success:", data);
       if (data.statusCode === 200) {
         alert("Logged in successfully");
         navigate("/dashboard"); // redirect after login
@@ -41,7 +39,6 @@ function AuthForm({ currentView }) {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    console.log("Signing up:", authForm);
 
     try {
       const { data } = await api.post(
@@ -53,7 +50,6 @@ function AuthForm({ currentView }) {
         },
         { withCredentials: true }
       );
-      console.log("Signup success:", data);
       alert("Account created successfully!");
       setAuthForm({ username: "", email: "", password: "" });
       navigate("/dashboard"); // redirect after signup
