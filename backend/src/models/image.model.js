@@ -43,6 +43,7 @@ const ImageSchema = new mongoose.Schema({
 // Index for faster queries
 ImageSchema.index({ userId: 1, folderId: 1 });
 ImageSchema.index({ userId: 1, name: 'text' });
+ImageSchema.index({ userId: 1, filename: 1 }, { unique: true });
 
 const Image = mongoose.model('Image', ImageSchema);
 
