@@ -35,6 +35,8 @@ function DashboardPage() {
   const [folderName, setFolderName] = useState("");
   const [uploadForm, setUploadForm] = useState({ name: "", image: null });
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   // console.log("searchQuery:", searchQuery);
 
   // Filtered images
@@ -124,6 +126,7 @@ function DashboardPage() {
 
       setFolderName("");
       setShowCreateFolder(false);
+      setRefreshTrigger(prev => prev + 1);
       // console.log("Folder created successfully");
     } catch (error) {
       if (error.response) {
@@ -165,9 +168,7 @@ function DashboardPage() {
 
       fetchFoldersAndImages();
     },
-    [currentFolder],
-    [folders],
-    [images]
+    [currentFolder , refreshTrigger]
   );
 
   const handleUploadImage = async (e) => {
@@ -200,7 +201,8 @@ function DashboardPage() {
 
       setUploadForm({ name: "", image: null });
       setShowUpload(false);
-      console.log("Image uploaded successfully");
+      setRefreshTrigger(prev => prev + 1);
+      // console.log("Image uploaded successfully");
     } catch (error) {
       if (error.response) {
         console.error("Error:", error.response.data.message);

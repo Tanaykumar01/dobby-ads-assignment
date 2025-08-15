@@ -26,7 +26,7 @@ function AuthForm({ currentView }) {
         { withCredentials: true }
       );
       if (data.statusCode === 200) {
-        alert("Logged in successfully");
+        // alert("Logged in successfully");
         navigate("/dashboard"); // redirect after login
       } else {
         alert(data.message || "Invalid credentials");
