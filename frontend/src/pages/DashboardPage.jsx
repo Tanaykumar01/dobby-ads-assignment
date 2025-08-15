@@ -166,7 +166,8 @@ function DashboardPage() {
       fetchFoldersAndImages();
     },
     [currentFolder],
-    [folders]
+    [folders],
+    [images]
   );
 
   const handleUploadImage = async (e) => {
