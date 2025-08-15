@@ -100,14 +100,22 @@ function DashboardPage() {
     setBreadcrumb([...breadcrumb, folder]);
   };
 
-  const deleteFolder = (id) => {
-    setFolders(folders.filter((f) => f.id !== id));
+  const deleteFolder = async (id) => {
+    try {
+      await api.delete(`/api/v1/folders/${id}`, { withCredentials: true });
+      setFolders((prevFolders) => ({
+        ...prevFolders,
+        data: prevFolders.data.filter((f) => f._id !== id),
+      }));
+      setRefreshTrigger((prev) => prev + 1);
+    } catch (error) {
+      console.error("Failed to delete folder:", error);
+    }
   };
 
   const deleteImage = async (id) => {
     try {
       await api.delete(`/api/v1/images/${id}`, { withCredentials: true });
-      console.log(images);
       setImages((prevImages) => ({
         ...prevImages,
         data: prevImages.data.filter((img) => img._id !== id),
