@@ -156,38 +156,56 @@ function DashboardPage() {
     }
   };
 
-  useEffect(
-    () => {
-      const fetchFoldersAndImages = async () => {
-        try {
-          const folderRes = await api.get(
-            "/api/v1/folders",
-            {
-              params: { parentId: currentFolder?._id || null },
-              withCredentials: true,
-            }
-          );
-          setFolders(folderRes.data);
+  const handleSearch = async (e) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    if (searchQuery.trim() === "") {
+      try {
+        const imageRes = await api.get("/api/v1/images", {
+          params: { folderId: currentFolder?._id || null },
+          withCredentials: true,
+        });
+        setImages(imageRes.data);
+      } catch (err) {
+        console.error("Failed to fetch images:", err);
+      }
+      return;
+    }
+    try {
+      const res = await api.get("/api/v1/images/search", {
+        params: { q: searchQuery },
+        withCredentials: true,
+      });
+      setImages({ data: res.data.data });
+    } catch (err) {
+      console.error("Search failed:", err);
+      setImages({ data: [] });
+    }
+  };
 
-          const imageRes = await api.get(
-            "/api/v1/images",
-            {
-              params: { folderId: currentFolder?._id || null },
-              withCredentials: true,
-            }
-          );
-          setImages(imageRes.data);
+  useEffect(() => {
+    const fetchFoldersAndImages = async () => {
+      try {
+        const folderRes = await api.get("/api/v1/folders", {
+          params: { parentId: currentFolder?._id || null },
+          withCredentials: true,
+        });
+        setFolders(folderRes.data);
 
-          setParentFolder(currentFolder);
-        } catch (err) {
-          console.error("Failed to fetch folders/images:", err);
-        }
-      };
+        const imageRes = await api.get("/api/v1/images", {
+          params: { folderId: currentFolder?._id || null },
+          withCredentials: true,
+        });
+        setImages(imageRes.data);
 
-      fetchFoldersAndImages();
-    },
-    [currentFolder , refreshTrigger]
-  );
+        setParentFolder(currentFolder);
+      } catch (err) {
+        console.error("Failed to fetch folders/images:", err);
+      }
+    };
+
+    fetchFoldersAndImages();
+  }, [currentFolder, refreshTrigger]);
 
   const handleUploadImage = async (e) => {
     e.preventDefault();
@@ -199,16 +217,12 @@ function DashboardPage() {
         formData.append("folderId", parentFolder._id);
       }
 
-      const response = await api.post(
-        "/api/v1/images",
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await api.post("/api/v1/images", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       // console.log("Image uploaded:", response.data);
 
@@ -219,7 +233,7 @@ function DashboardPage() {
 
       setUploadForm({ name: "", image: null });
       setShowUpload(false);
-      setRefreshTrigger(prev => prev + 1);
+      setRefreshTrigger((prev) => prev + 1);
       // console.log("Image uploaded successfully");
     } catch (error) {
       if (error.response) {
@@ -327,7 +341,7 @@ function DashboardPage() {
               type="text"
               placeholder="Search images..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearch(e)}
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
