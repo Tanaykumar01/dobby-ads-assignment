@@ -42,7 +42,7 @@ function AuthForm({ currentView }) {
 
     try {
       const { data } = await api.post(
-        "/api/v1/auth/register",
+        "/api/v1/users/register",
         {
           username: authForm.username,
           email: authForm.email,
