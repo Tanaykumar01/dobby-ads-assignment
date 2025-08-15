@@ -53,7 +53,7 @@ function AuthForm({ currentView }) {
       if (data.statusCode === 200) {
         alert("Account created successfully!");
         setAuthForm({ username: "", email: "", password: "" });
-        navigate("/dashboard");
+        navigate("/");
       } else {
         alert(data.message || "Signup failed");
       }
