@@ -371,7 +371,7 @@ function DashboardPage() {
                   className="w-full h-full object-cover"
                 />
                 <button
-                  onClick={() => deleteImage(image.id)}
+                  onClick={() => deleteImage(image._id)}
                   className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 p-1 bg-white hover:bg-red-50 rounded-full shadow text-red-500 transition-all"
                 >
                   <Trash2 className="w-4 h-4" />
