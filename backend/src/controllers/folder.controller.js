@@ -28,10 +28,10 @@ const getFolders = asyncHandler(async (req, res) => {
 
 // Create new folder
 const createFolder = asyncHandler(async (req, res) => {
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return new ApiError(400, "Validation error", errors.array());
-  // }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new ApiError(400, "Validation error", errors.array());
+  }
   
   const { name, parentId } = req.body;
   
@@ -80,7 +80,7 @@ const deleteFolder = asyncHandler(async (req, res) => {
     });
 
     if (!folder) {
-      return new ApiError(404, "Folder not found");
+      throw new ApiError(404, "Folder not found");
     }
 
     // Recursive function to get all descendant folders

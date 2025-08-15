@@ -4,7 +4,7 @@ import cors from "cors";
 
 const app = express();
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:5173',
     credentials: true
 }));
 
@@ -19,11 +19,12 @@ app.use(cookieParser());
 // import routes
 import  userRouter  from "./routes/user.routes.js";
 import folderRoutes from "./routes/folder.routes.js";
-
+import imageRoutes from "./routes/image.routes.js";
 
 // use routes
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/folders", folderRoutes);
+app.use("/api/v1/images", imageRoutes);
 
 
 
