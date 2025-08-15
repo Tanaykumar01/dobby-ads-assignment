@@ -50,9 +50,13 @@ function AuthForm({ currentView }) {
         },
         { withCredentials: true }
       );
-      alert("Account created successfully!");
-      setAuthForm({ username: "", email: "", password: "" });
-      navigate("/dashboard"); // redirect after signup
+      if (data.statusCode === 200) {
+        alert("Account created successfully!");
+        setAuthForm({ username: "", email: "", password: "" });
+        navigate("/dashboard");
+      } else {
+        alert(data.message || "Signup failed");
+      }
     } catch (error) {
       console.error("Signup error:", error.response?.data || error.message);
       alert("Signup failed");
