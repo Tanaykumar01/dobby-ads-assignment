@@ -2,6 +2,7 @@
 import { useState } from "react";
 import axios from "axios"; // ✅ Now actually imported
 import { useNavigate } from "react-router-dom"; // If you’re using react-router
+import api from "../api/axios";
 
 function AuthForm({ currentView }) {
   const [authForm, setAuthForm] = useState({
@@ -17,8 +18,8 @@ function AuthForm({ currentView }) {
     console.log("Logging in:", authForm.email, authForm.password);
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:5001/api/v1/users/login",
+      const { data } = await api.post(
+        "/api/v1/users/login",
         {
           email: authForm.email,
           password: authForm.password,
@@ -43,8 +44,8 @@ function AuthForm({ currentView }) {
     console.log("Signing up:", authForm);
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:5001/api/v1/auth/register",
+      const { data } = await api.post(
+        "/api/v1/auth/register",
         {
           username: authForm.username,
           email: authForm.email,
